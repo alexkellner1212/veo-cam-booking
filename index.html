@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Veo Cam Verleih - Buche dein Spiel</title>
+    <style>
+        :root {
+            --primary-color: #23d160;
+            --paypal-color: #0070ba;
+            --dark-bg: #1a1a1a;
+            --light-text: #f5f5f5;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: #333;
+            background-color: #fcfcfc;
+        }
+
+        header {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        h1 { margin: 0; font-size: 2.5rem; }
+        h2 { font-weight: 300; color: #ccc; margin-top: 10px; font-size: 1.2rem; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .booking-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .box {
+            flex: 1;
+            min-width: 300px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .btn-paypal {
+            background-color: var(--paypal-color);
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            display: block;
+            margin-top: 20px;
+        }
+        
+        .btn-paypal:hover { background-color: #005a96; }
+
+        /* Calendly Inline Style Overrides */
+        .calendly-inline-widget {
+            min-width: 320px;
+            height: 630px;
+        }
+        
+        footer {
+            background-color: var(--dark-bg);
+            color: #777;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Veo Cam Verleih</h1>
+        <h2>Professionelle Spielanalyse für 20€ pro Spiel</h2>
+    </header>
+
+    <div class="container">
+        
+        <div class="booking-container">
+            
+            <div class="box">
+                <h3>1. Termin Buchen</h3>
+                <p>Wähle dein Spiel-Datum aus.</p>
+                <div class="calendly-inline-widget" data-url="https://calendly.com/alex-kellner1212/veo_cam?hide_landing_page_details=1&hide_gdpr_banner=1" style="min-width:320px;height:630px;"></div>
+                <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+            </div>
+
+            <div class="box" id="payment-section">
+                <h3>2. Bezahlung</h3>
+                <p>Miete für 1 Spiel</p>
+                <h2 style="color: var(--primary-color);">20,00 €</h2>
+                <p><small>Zahlung sicher per PayPal an Alex Kellner</small></p>
+
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <input type="hidden" name="cmd" value="_xclick">
+                    <input type="hidden" name="business" value="alex_kellner@me.com">
+                    <input type="hidden" name="item_name" value="Veo Cam Miete (1 Spiel)">
+                    <input type="hidden" name="currency_code" value="EUR">
+                    <input type="hidden" name="amount" value="20.00"> <button type="submit" class="btn-paypal">Jetzt 20€ Bezahlen</button>
+                </form>
+            </div>
+
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Veo Cam Verleih</p>
+    </footer>
+
+    <script>
+        function isCalendlyEvent(e) {
+            return e.data.event && e.data.event.indexOf('calendly') === 0;
+        }
+
+        window.addEventListener('message', function(e) {
+            if (isCalendlyEvent(e)) {
+                // Prüfen, ob das Event "Ternim gebucht" ist
+                if (e.data.event === 'calendly.event_scheduled') {
+                    
+                    // HIER PASSIERT DIE WEITERLEITUNG
+                    // Aktuell: Scrollt sanft zum Bezahl-Bereich
+                    document.getElementById('payment-section').scrollIntoView({ 
+                        behavior: 'smooth' 
+                    });
+                    
+                    alert("Termin erfolgreich gebucht! Bitte schließe nun die Zahlung ab.");
+
+                    // ALTERNATIV: Echte Weiterleitung zu einer anderen Seite (Kommentar entfernen):
+                    // window.location.href = 'https://www.paypal.com/...'; 
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
